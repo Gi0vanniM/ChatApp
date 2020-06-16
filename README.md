@@ -2,6 +2,7 @@
 School group project
 
 ###Laravel
+\
 Om de server op te starten, zorg je ervoor dat je terminal in je juist locatie staat. In mijn geval is dat 
 `C:\xampp\htdocs\laravelapps\ChatApp`. Wanneer je in de folder ChatApp zit moet je het volgende command uitvoeren.
 \
