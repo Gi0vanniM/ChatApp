@@ -6,7 +6,9 @@ School group project
 Om de server op te starten, zorg je ervoor dat je terminal in je juist locatie staat. In mijn geval is dat 
 `C:\xampp\htdocs\laravelapps\ChatApp`. Wanneer je in de folder ChatApp zit moet je het volgende command uitvoeren.
 \
-`php artisan serve`
+```bash
+$ php artisan serve
+```
 \
 Het default adres is [http://127.0.0.1:8000](http://127.0.0.1:8000).
 \
