@@ -7,7 +7,12 @@ Om de server op te starten, zorg je ervoor dat je terminal in je juist locatie s
 `C:\xampp\htdocs\laravelapps\ChatApp`. Wanneer je in de folder ChatApp zit moet je het volgende command uitvoeren.
 \
 ```bash
-$ php artisan serve
+php artisan serve
+```
+\
+Om de dependencies te installeren voer je het volgende command uit.
+```bash
+composer install
 ```
 \
 Het default adres is [http://127.0.0.1:8000](http://127.0.0.1:8000).
