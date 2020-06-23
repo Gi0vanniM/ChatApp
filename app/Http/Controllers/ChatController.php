@@ -6,6 +6,7 @@ use App\ChatModel;
 use App\Http\Controllers\Controller;
 use App\Message;
 use Illuminate\Http\Request;
+use function App\getAllUsersName;
 
 class ChatController extends Controller
 {
@@ -20,6 +21,11 @@ class ChatController extends Controller
         return view('chats');
     }
 
+    public function create()
+    {
+        return view('temp_gio/createChat', ['users' => getAllUsersName()]);
+    }
+
     public function createChat(Request $request)
     {
         /*
@@ -30,7 +36,9 @@ class ChatController extends Controller
          * admins ['userid', 'userid']
          * users ['userid', 'userid']
          */
-
+        $chatModel = new ChatModel();
+        $chatModel->createChat($_POST);
+//        var_dump($request->all());
     }
 
     public function viewChat($chatid)

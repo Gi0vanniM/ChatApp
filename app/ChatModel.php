@@ -10,6 +10,7 @@ class ChatModel extends Model
 
     public function createChat($data)
     {
+        var_dump($_POST);
         /*
          * $request
          * group_name 'groupname'
@@ -24,10 +25,19 @@ class ChatModel extends Model
             $$key = $value;
         }
 
+        if (empty($group_name)) $group_name = "";
+        if (empty($isgroup)) {
+            $isgroup = false;
+        } else {
+            $isgroup = true;
+        }
+        if (isset($admins)) $admins = $admins;
+        if (isset($users)) $users = $users;
+
         $created_at = time();
 
-        DB::insert("insert into chats (group_name, isgroup, created_at, admins, users) values (:group_name, :isgroup, :created_at, :admins, :users)",
-            array($group_name, $isgroup, $created_at, $admins, $users));
+        DB::insert("insert into chats (group_name, isgroup, created_at, admins, users) values (:group_name, :isgroup, NOW(), :admins, :users)",
+            array($group_name, $isgroup, $admins, $users));
 
     }
 

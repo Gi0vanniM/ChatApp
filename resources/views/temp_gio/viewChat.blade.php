@@ -12,12 +12,13 @@ if (isset($messages)) $messages = $messages;
         <div id="messages">
             <ul>
                 <?php foreach ($messages as $message) { ?>
-                <li><?= $message['message'] ?></li>
+                <li><strong><?= $message['userid'] ?></strong><?= $message['message'] ?></li>
                 <?php } ?>
             </ul>
         </div>
 
         <form action="{{ route("chat.id", ['id'=>$id]) }}" method="POST" class="form">
+            @csrf
             <div class="row">
                 <input class="form-control-lg" type="text">
                 <button type="submit" class="btn btn-lg btn-primary">Send</button>
