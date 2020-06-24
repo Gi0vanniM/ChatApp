@@ -13,7 +13,7 @@ $admin = [auth()->id()];
         <form action="{{ route('chat.create') }}" method="POST">
             @csrf
 
-            <input type="hidden" name="admins" value="<?= json_encode($admin) ?>">
+            <input type="hidden" name="admins[]" value="<?= $admin[0] ?>">
 
             <input type="hidden" value="true" {{--type="checkbox"--}} name="isgroup" id="isgroup">
 {{--            <label for="isgroup">Group</label>--}}
