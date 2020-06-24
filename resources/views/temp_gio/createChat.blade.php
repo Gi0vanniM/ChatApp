@@ -15,19 +15,19 @@ $admin = [auth()->id()];
 
             <input type="hidden" name="admins" value="<?= json_encode($admin) ?>">
 
-            <input type="checkbox" name="isgroup" id="isgroup">
-            <label for="isgroup">Group</label>
+            <input type="hidden" value="true" {{--type="checkbox"--}} name="isgroup" id="isgroup">
+{{--            <label for="isgroup">Group</label>--}}
 
             <br>
 
             {{-- V Als het een groep is V --}}
             <label for="group_name">Group name</label>
-            <input type="text" name="group_name" id="group_name">
+            <input type="text" name="group_name" id="group_name" required>
 
             <br>
 
             <label for="users">Select people to add</label> <br>
-            <select multiple name="users" id="users">
+            <select multiple name="users[]" id="users" required>
                 <?php foreach ($users as $user) {
                 $user = (array)$user; ?>
                 <option value="<?= $user['id'] ?>"><?= $user['name'] ?></option>

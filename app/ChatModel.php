@@ -26,18 +26,17 @@ class ChatModel extends Model
         }
 
         if (empty($group_name)) $group_name = "";
-        if (empty($isgroup)) {
-            $isgroup = false;
-        } else {
-            $isgroup = true;
-        }
+//        if (empty($isgroup)) {
+//            $isgroup = false;
+//        } else {
+//            $isgroup = true;
+//        }
+        $isgroup = (empty($isgroup)) ? false : true;
         if (isset($admins)) $admins = $admins;
-        if (isset($users)) $users = $users;
+        if (isset($users)) $users = json_encode($users);
 
-        $created_at = time();
-
-        DB::insert("insert into chats (group_name, isgroup, created_at, admins, users) values (:group_name, :isgroup, NOW(), :admins, :users)",
-            array($group_name, $isgroup, $admins, $users));
+//        DB::insert("insert into chats (group_name, isgroup, created_at, admins, users) values (:group_name, :isgroup, NOW(), :admins, :users)",
+//            array($group_name, $isgroup, $admins, $users));
 
     }
 
