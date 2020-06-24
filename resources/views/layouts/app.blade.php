@@ -72,7 +72,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="background-image:url({{asset('img/bg.png')}}); background-repeat: no-repeat; background-size: cover;">
             @yield('content')
         </main>
     </div>

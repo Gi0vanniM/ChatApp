@@ -37,9 +37,11 @@ $lastmsg = 'hoei';
 
 <?php // } ?>
 </div>
-<div class='row ml-auto mr-1 w-75'>
+<div class='row ml-auto mr-1 col-12'>
 
-<form action="" class=" w-100">
+<a href="/create"><button class="btn btn-success text-white mb-1"> Make a group chat</button></a>
+
+<form action="" class=" ml-auto w-75">
 <div class="form-group shadow-lg">
   <input type="text" name="msg" id="" class="form-control" placeholder="Send a message" aria-describedby="helpId">
 </div>
