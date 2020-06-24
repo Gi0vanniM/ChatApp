@@ -26,21 +26,32 @@ class ChatModel extends Model
         }
 
         if (empty($group_name)) $group_name = "";
-//        if (empty($isgroup)) {
-//            $isgroup = false;
-//        } else {
-//            $isgroup = true;
-//        }
+
         $isgroup = (empty($isgroup)) ? false : true;
         if (isset($admins)) $admins = $admins;
         if (isset($users)) $users = $users;
 
         $adminList = implode(';', $admins);
         $userList = implode(';', $users);
-        var_dump($adminList);
 
-//        DB::insert("insert into chats (group_name, isgroup, created_at, admins, users) values (:group_name, :isgroup, NOW(), :admins, :users)",
-//            array($group_name, $isgroup, $admins, $users));
+
+        $check = false;
+        while ($check == false) {
+
+            $uuid = uniqid();
+            $result = DB::select('SELECT * FROM chats WHERE chatid=?', array($uuid));
+            var_dump($result);
+            if (empty($result)) {
+                $check = true;
+                echo "Using $uuid";
+            }
+        }
+
+        if ($check) {
+            DB::insert("insert into chats (chatid, group_name, isgroup, created_at, admins, users) values (:chatid, :group_name, :isgroup, NOW(), :admins, :users)",
+                array($uuid, $group_name, $isgroup, $adminList, $userList));
+//            DB::table('CREATE TABLE ');
+        }
 
     }
 

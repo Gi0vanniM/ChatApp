@@ -14,7 +14,8 @@ class Chats extends Migration
     public function up()
     {
         Schema::create('chats', function (Blueprint $table) {
-            $table->id('chatid');
+            $table->char('chatid')->primary();
+            $table->text('group_name');
             $table->boolean('isgroup');
             $table->timestamp('created_at')->nullable();
             $table->text('admins')->nullable();
