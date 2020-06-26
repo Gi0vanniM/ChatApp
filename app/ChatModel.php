@@ -3,14 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ChatModel extends Model
 {
 
     public function createChat($data)
     {
-
+        $broodjeKaas = [];
         /*
          * $request
          * group_name 'groupname'
@@ -40,30 +42,54 @@ class ChatModel extends Model
 
             $uuid = uniqid();
             $result = DB::select('SELECT * FROM chats WHERE chatid=?', array($uuid));
-            var_dump($result);
             if (empty($result)) {
                 $check = true;
-                echo "Using $uuid";
             }
         }
 
+        $broodjeKaas['uuid'] = $uuid;
+
+        DB::beginTransaction();
+
         if ($check) {
-            DB::insert("insert into chats (chatid, group_name, isgroup, created_at, admins, users) values (:chatid, :group_name, :isgroup, NOW(), :admins, :users)",
-                array($uuid, $group_name, $isgroup, $adminList, $userList));
-//            DB::table('CREATE TABLE ');
+            /*
+             * insert chat data in table
+             */
+            $queryInsert = DB::insert("INSERT INTO chats (chatid, group_name, isgroup, created_at, admins) VALUES (:chatid, :group_name, :isgroup, NOW(), :admins)",
+                array($uuid, $group_name, $isgroup, $adminList));
+
+            DB::insert('INSERT INTO chatusers (chatid, userid) VALUES (:chatid, :userid)', array($uuid, $admins[0]));
+            foreach ($users as $user) {
+                DB::insert('INSERT INTO chatusers (chatid, userid) VALUES (:chatid, :userid)', array($uuid, $user));
+            }
+
+
+            if ($queryInsert) $broodjeKaas['insert'] = true;
+
         }
 
+        DB::commit();
+
+        return $broodjeKaas;
     }
 
     public function getMessages($chatid)
     {
-        $chat = 'chat-' . $chatid;
-        return DB::select("select * from " . "`$chat`");
+        return DB::select("select * from messages WHERE chatid=?", array($chatid));
     }
 
     public function saveMessage($message)
     {
-        $chat = 'chat-' . $message['chatid'];
-        DB::insert("insert into $chat (userid, timestamp, message) values (?,?,?)", array($message['chatid'], $message['userid'], now(), $message['message']));
+        DB::insert("insert into messages (chatid, userid, timestamp, message) values (?,?,?,?)", array($message['chatid'], $message['userid'], now(), $message['message']));
+    }
+
+    public static function getChatData($id)
+    {
+        return DB::select('SELECT * FROM chats WHERE chatid=?', array($id));
+    }
+
+    public static function getChatsByUserId($id)
+    {
+        return DB::select('SELECT * FROM chatusers WHERE userid=?', array($id));
     }
 }

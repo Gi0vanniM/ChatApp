@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Chats extends Migration
+class Messages extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class Chats extends Migration
      */
     public function up()
     {
-        Schema::create('chats', function (Blueprint $table) {
-            $table->char('chatid')->primary();
-            $table->text('group_name');
-            $table->boolean('isgroup');
-            $table->timestamp('created_at')->nullable();
-            $table->text('admins')->nullable();
+        Schema::create('messages', function (Blueprint $table) {
+            $table->id('messageid');
+            $table->char('chatid');
+            $table->bigInteger('userid');
+            $table->timestamp('timestamp')->nullable();
+            $table->text('message');
         });
     }
 

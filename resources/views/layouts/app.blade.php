@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-dark">
+<body class="bg-dark" style="height: 100%">
     <div id="app" class="bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow">
             <div class="container">

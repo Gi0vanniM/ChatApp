@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Chat00000000 extends Migration
+class Chatusers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class Chat00000000 extends Migration
      */
     public function up()
     {
-        Schema::create('chat-0000-0000', function (Blueprint $table) {
-            $table->id('messageid');
-            $table->bigInteger('userid');
-            $table->timestamp('timestamp')->nullable();
-            $table->text('message');
+        Schema::create('chatusers', function (Blueprint $table) {
+            $table->char('chatid');
+            $table->char('userid');
         });
     }
 

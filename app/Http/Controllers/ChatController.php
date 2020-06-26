@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\ChatModel;
 use App\Http\Controllers\Controller;
 use App\Message;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use function App\getAllUsersName;
 
 class ChatController extends Controller
@@ -23,10 +25,10 @@ class ChatController extends Controller
 
     public function create()
     {
-        return view('temp_gio/createChat', ['users' => getAllUsersName()]);
+        return view('createChat', ['users' => getAllUsersName()]);
     }
 
-    public function createChat(Request $request)
+    public function createChat()
     {
         /*
          * $request
@@ -37,13 +39,17 @@ class ChatController extends Controller
          * users ['userid', 'userid']
          */
         $chatModel = new ChatModel();
-        $chatModel->createChat($_POST);
-//        var_dump($request->all());
+        $broodje = $chatModel->createChat($_POST);
+        if ($broodje['insert'] == true) {
+            return redirect('chat/' . $broodje['uuid']);
+        } else {
+
+        }
     }
 
     public function viewChat($chatid)
     {
-        return view('temp_gio/viewChat', ['id' => $chatid, 'messages' => $this->fetchMessages($chatid)]);
+        return view('chat', ['messages' => $this->fetchMessages($chatid), 'chat' => ChatModel::getChatData($chatid), 'userChats' => ChatModel::getChatsByUserId(Auth::id())]);
     }
 
     public function fetchMessages($chatid)
