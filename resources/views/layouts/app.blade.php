@@ -79,7 +79,7 @@
             </div>
         </nav>
 
-        <main class="py-4 bg-transparent">
+        <main class="py-1 bg-transparent">
             @yield('content')
         </main>
     </div>
