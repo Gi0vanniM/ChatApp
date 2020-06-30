@@ -7,7 +7,7 @@ $lastmsg = 'hoei';
 @extends('layouts.app')
 
 @section('content')
-<div class='col-12 h-100 w-100 mx-auto p-0 text-light position-absolute row mainbackground' style="background-image:url({{asset('img/bg.png')}}); background-repeat: no-repeat; background-size: cover;">
+<div class='col-12 h-100 w-100 mx-auto p-0 text-light position-absolute row mainbackground'>
 
 <!--Main overview of chats for user -->
 
@@ -43,7 +43,7 @@ $lastmsg = 'hoei';
 
 <form action="" class=" ml-auto w-75">
 <div class="form-group shadow-lg">
-  <input type="text" name="msg" id="" class="form-control" placeholder="Send a message" aria-describedby="helpId">
+  <input type="text" name="msg" id="" class="form-control bg-dark text-white border border-secondary rounded" placeholder="Send a message" aria-describedby="helpId">
 </div>
 <button type="submit" class="btn btn-primary ml-auto shadow float-left">Send</button>
 </form>
