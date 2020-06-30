@@ -15,7 +15,10 @@ class Chatusers extends Migration
     {
         Schema::create('chatusers', function (Blueprint $table) {
             $table->char('chatid');
-            $table->char('userid');
+            $table->foreign('chatid')->references('chatid')->on('chats');
+
+            $table->bigInteger('userid')->unsigned();
+            $table->foreign('userid')->references('id')->on('users');
         });
     }
 
@@ -26,6 +29,6 @@ class Chatusers extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('chatusers');
     }
 }
