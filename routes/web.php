@@ -22,7 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/chat/{id}', 'ChatController@viewChat')->name('chat.id');
-Route::post('/chat/{id}', 'ChatController@sendMessage')->name('');
+Route::post('/chat/{id}', 'ChatController@sendMessage')->name('chat.id.message');
 
 
 Route::get('/create', 'ChatController@create');

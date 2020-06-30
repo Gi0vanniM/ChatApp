@@ -49,6 +49,10 @@ class ChatController extends Controller
 
     public function viewChat($chatid)
     {
+
+        $chats = ChatModel::getChatsByUserId(Auth::id());
+        var_dump($chats);
+
         return view('chat', ['messages' => $this->fetchMessages($chatid), 'chat' => ChatModel::getChatData($chatid), 'userChats' => ChatModel::getChatsByUserId(Auth::id())]);
     }
 
@@ -58,11 +62,21 @@ class ChatController extends Controller
         return $chat->getMessages($chatid);
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage($chatid)
     {
         /*
          * Call socket function here*
          */
-        saveMessage($request);
+
+        $data = $_POST;
+        $data['chatid'] = $chatid;
+        $data['userid'] = Auth::id();
+
+        $chatModel = new ChatModel();
+        if ($chatModel->saveMessage($data)) {
+            route('chat.id', ['id' => $chatid]);
+        } else {
+            echo "Someting went wrong while sending the message.";
+        }
     }
 }

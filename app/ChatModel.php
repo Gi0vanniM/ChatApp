@@ -80,7 +80,7 @@ class ChatModel extends Model
 
     public function saveMessage($message)
     {
-        DB::insert("insert into messages (chatid, userid, timestamp, message) values (?,?,?,?)", array($message['chatid'], $message['userid'], now(), $message['message']));
+        return DB::insert("insert into messages (chatid, userid, timestamp, message) values (?,?,?,?)", array($message['chatid'], $message['userid'], now(), $message['message']));
     }
 
     public static function getChatData($id)
