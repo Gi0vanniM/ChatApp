@@ -17,7 +17,7 @@ composer install
 ```
 \
 Het default adres is [http://127.0.0.1:8000](http://127.0.0.1:8000).
-\
+
 #### .env aanpassen
 \
 Nu moet je de `.env` aanpassen naar jou instellingen (bijv. database connectie). Als je nog geen `.env` bestand in de `ChatApp` map hebt dan kopieëer je `.env.example` en hernoem je het bestand naar `.env`. Hierin pas je de instelling aan, voornamelijk je database connectie.
