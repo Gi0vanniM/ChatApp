@@ -19,8 +19,15 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-dark" style="height: 100%">
-    <div id="app" class="bg-dark">
+<body class="" style="animation-name: bgAnim; animation-duration: 6s; animation-iteration-count: infinite; background-repeat: no-repeat; background-size: cover;  background-attachment: fixed;">
+    <style>
+    @keyframes bgAnim {
+    0% {background-image:url({{asset('img/nobg.png')}});}
+    50% {background-image:url({{asset('img/bg.png')}});}
+    100% {background-image:url({{asset('img/nobg.png')}});}
+    }
+    </style>
+    <div id="app" class="bg-transparent">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -72,7 +79,7 @@
             </div>
         </nav>
 
-        <main class="py-4" style="background-image:url({{asset('img/bg.png')}}); background-repeat: no-repeat; background-size: cover;">
+        <main class="py-4 bg-transparent">
             @yield('content')
         </main>
     </div>
