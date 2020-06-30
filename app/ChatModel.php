@@ -7,9 +7,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
+
 class ChatModel extends Model
 {
 
+    /*
+     * Create a chat group
+     */
     public function createChat($data)
     {
         $broodjeKaas = [];
@@ -24,7 +28,7 @@ class ChatModel extends Model
 
         foreach ($data as $key => $value) {
             if (empty($value) && $key != 'group_name') exit("$key was not filled in.");
-            $$key = $value;
+            $$key = sanitize($value);
         }
 
         if (empty($group_name)) $group_name = "";
@@ -73,23 +77,61 @@ class ChatModel extends Model
         return $broodjeKaas;
     }
 
-    public function getMessages($chatid)
+    /*
+     * Get messages from the database by (chat id, amount (default of 30 messages))
+     */
+    public function getMessages($chatid, $amount = 30)
     {
-        return DB::select("select * from messages WHERE chatid=?", array($chatid));
+        $chatid = Functions::sanitize($chatid);
+        return DB::select("
+SELECT *
+FROM (SELECT m.*, name
+        FROM messages m
+        JOIN users ON m.userid = users.id
+        WHERE chatid=? ORDER BY timestamp
+        DESC LIMIT ?) sub
+ORDER BY timestamp ASC
+    ", array($chatid, $amount));
     }
 
-    public function saveMessage($message)
+    /*
+     * Save a chat message to the database ($data has userid, chatid, message)
+     */
+    public function saveMessage($data)
     {
-        return DB::insert("insert into messages (chatid, userid, timestamp, message) values (?,?,?,?)", array($message['chatid'], $message['userid'], now(), $message['message']));
+        $chatid = Functions::sanitize($data['chatid']);
+        $message = Functions::sanitize($data['message']);
+        $userid = Functions::sanitize($data['userid']);
+        return DB::insert("INSERT INTO messages (chatid, userid, timestamp, message) VALUES (?,?,?,?)", array($chatid, $userid, now(), $message));
     }
 
+    /*
+     * Get all the data about the group chat (by chat id)
+     */
     public static function getChatData($id)
     {
-        return DB::select('SELECT * FROM chats WHERE chatid=?', array($id));
+        $id = Functions::sanitize($id);
+        $result = DB::select('SELECT * FROM chats WHERE chatid=?', array($id));
+        return Functions::objectInArrayToArray($result)[0];
     }
 
-    public static function getChatsByUserId($id)
+    /*
+     * Get all chat groups the user is in (by user id)
+     */
+    public static function getChatsByUserId($id, $all = false)
     {
-        return DB::select('SELECT * FROM chatusers WHERE userid=?', array($id));
+        /*
+         * TODO: Return chat data if $all = true
+         */
+        $id = Functions::sanitize($id);
+        $select = ($all) ? '*' : 'chatid';
+        $result = DB::select('SELECT ' . $select . ' FROM chatusers WHERE userid=?', array($id));
+        $chats = [];
+        foreach ($result as $row) {
+            $row = (array)$row;
+            if (!$all) array_push($chats, $row['chatid']);
+        }
+        return $chats;
     }
+
 }

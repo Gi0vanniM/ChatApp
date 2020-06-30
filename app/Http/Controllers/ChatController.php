@@ -49,11 +49,16 @@ class ChatController extends Controller
 
     public function viewChat($chatid)
     {
-
         $chats = ChatModel::getChatsByUserId(Auth::id());
-        var_dump($chats);
+        /*
+         * Check if user is actually in this chat group
+         */
+        if (in_array($chatid, $chats)) {
+            return view('chat', ['messages' => $this->fetchMessages($chatid), 'chat' => ChatModel::getChatData($chatid), 'userChats' => $chats]);
+        } else {
+            return redirect('/home');
+        }
 
-        return view('chat', ['messages' => $this->fetchMessages($chatid), 'chat' => ChatModel::getChatData($chatid), 'userChats' => ChatModel::getChatsByUserId(Auth::id())]);
     }
 
     public function fetchMessages($chatid)

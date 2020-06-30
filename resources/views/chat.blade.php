@@ -3,7 +3,8 @@ $chatname = 'hoi';
 
 $lastmsg = 'hoei';
 
-if (isset($chat)) $chat = (array)$chat[0];
+if (isset($chat)) $chat = (array)$chat;
+if (isset($userChats)) $userChats = (array)$userChats;
 if (!empty($messages)) $messages = (array)$messages;
 
 ?>
@@ -26,6 +27,15 @@ if (!empty($messages)) $messages = (array)$messages;
                 </div>
             </div>
             <?php // } ?>
+            <?php foreach ($userChats as $row){ ?>
+            <div class="card bg-dark shadow-lg mt-1">
+                <img class="card-img-top" src="" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">To: <?= $chat['group_name'] ?> </h4>
+                    <p class="card-text"><?= $lastmsg ?></p>
+                </div>
+            </div>
+            <?php } ?>
         </div>
 
         <div class="ml-auto mr-1 col-9 h-75 border border-secondary rounded mt-2 shadow-lg overflow-auto">
@@ -35,7 +45,7 @@ if (!empty($messages)) $messages = (array)$messages;
             <div class="card bg-dark shadow-lg mt-1">
                 <img class="card-img-top" src="" alt="">
                 <div class="card-body p-1">
-                    <h6 class="card-text text-white"><?= $message['userid'] ?>:</h6>
+                    <h6 class="card-text text-white"><?= $message['name'] ?>:</h6>
                     <h6 class="card-text text-white"><?= $message['message'] ?></h6>
                     <small class='text-secondary'>At <?= $message['timestamp']?></small>
                 </div>
