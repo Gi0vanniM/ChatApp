@@ -20,16 +20,26 @@ function CARD(message, user = 'you') {
     <h6 class="card-text text-white">${message}</h6>
     <small class='text-secondary'>At [time and date]</small>
 </div>
-</div> `}
+</div>`
+}
 class SocketCLT {
     /**
-     * Lets the user chat
+     * Starts a connection with the server
+     * @param {*} id
+     * @param {string} username
+     * @param {*} user_id
      */
     constructor(id, username, user_id) {
+        //error checking
+            if(!id || !username || !user_id) throw new ReferenceError("Not all parameters are filled")
+            //check if host and port are the correct type
+            if(typeof HOST != "string" || typeof PORT != "number") throw new TypeError(`Type of host: ${HOST} OR port: '${PORT}' is invalid`)
+
         this.id = id;
         this.username = username;
         this.user_id = user_id;
 
+        //create the connection
         this.Socket = new WebSocket(`ws://${HOST}:${PORT}/chat`);
 
         //add the events
@@ -41,14 +51,26 @@ class SocketCLT {
         this.Socket.onopen = e => { this.send(`${this.username} joined the chat...`) }
         this.Socket.onclose = e => { this.send(`${this.username} the chat...`) }
     }
+    /**
+     * @param {string} message 
+     * @param {string} user 
+     */
     addMessage(message, user = "you") {
+        //error checking
+        if(typeof message != "string") throw new TypeError(`'${message}' is not of type string`)
+        if(typeof user != "string") throw new TypeError(`'${user}' is not of type string`)
+        
+        //add the message
         const BOX = document.getElementById('chat_box');
         BOX.innerHTML += CARD(message, user);
     }
     send(msg) {
-        if (typeof msg == "string") {
+        if (typeof msg != "string") throw new TypeError(`'${msg}' is not of type string`)
+        
+        try{
             this.Socket.send(JSON.stringify({ 'id': this.id, 'msg': msg, 'username': this.username, 'user-id': this.user_id }));//send the message to the server
             this.addMessage(`${msg}`);//add the message to the message box
         }
+        catch(err){ throw new Error("Something went wrong when sending message to the server\n" + err); }
     }
 }
