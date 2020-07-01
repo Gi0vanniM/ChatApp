@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card bg-dark border border-secondary rounded text-white">
-                <div class="card-header shadow-lg">{{ __('Register') }}</div>
+            <div class="card bg-transparent border border-secondary rounded text-white">
+                <div class="card-header shadow-lg border border-secondary border-bottom-1 text-center">{{ __('Register') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -63,7 +63,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-transparent border border-primary text-white">
                                     {{ __('Register') }}
                                 </button>
                             </div>
