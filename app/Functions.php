@@ -12,6 +12,15 @@ class Functions
         return $data;
     }
 
+    public static function sanitizeJson($data)
+    {
+        $new = [];
+        foreach ($data as $key => $value) {
+            $new[$key] = self::sanitize($value);
+        }
+        return $new;
+    }
+
     public static function objectInArrayToArray($data)
     {
         $new = [];

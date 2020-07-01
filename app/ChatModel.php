@@ -14,7 +14,7 @@ class ChatModel extends Model
     /*
      * Create a chat group
      */
-    public function createChat($data)
+    public static function createChat($data)
     {
         $broodjeKaas = [];
         /*
@@ -80,7 +80,7 @@ class ChatModel extends Model
     /*
      * Get messages from the database by (chat id, amount (default of 30 messages))
      */
-    public function getMessages($chatid, $amount = 30)
+    public static function getMessages($chatid, $amount = 30)
     {
         $chatid = Functions::sanitize($chatid);
         return DB::select("
@@ -97,7 +97,7 @@ ORDER BY timestamp ASC
     /*
      * Save a chat message to the database ($data has userid, chatid, message)
      */
-    public function saveMessage($data)
+    public static function saveMessage($data)
     {
         $chatid = Functions::sanitize($data['chatid']);
         $message = Functions::sanitize($data['message']);
@@ -124,8 +124,7 @@ ORDER BY timestamp ASC
          * TODO: Return chat data if $all = true
          */
         $id = Functions::sanitize($id);
-        $select = ($all) ? '*' : 'chatid';
-        $result = DB::select('SELECT ' . $select . ' FROM chatusers WHERE userid=?', array($id));
+        $result = DB::select('SELECT * FROM chatusers WHERE userid=?', array($id));
         $chats = [];
         foreach ($result as $row) {
             $row = (array)$row;
