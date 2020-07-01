@@ -20,7 +20,7 @@ class ChatController extends Controller
 
     public function index()
     {
-        return view('chats');
+        return view('index');
     }
 
     public function create()
@@ -38,12 +38,12 @@ class ChatController extends Controller
          * admins ['userid', 'userid']
          * users ['userid', 'userid']
          */
-        $chatModel = new ChatModel();
-        $broodje = $chatModel->createChat($_POST);
-        if ($broodje['insert'] == true) {
-            return redirect('chat/' . $broodje['uuid']);
-        } else {
+        $check = ChatModel::createChat($_POST);
 
+        if ($check['insert'] == true) {
+            return redirect('chat/' . $check['uuid']);
+        } else {
+            echo 'Something went wrong creating a group chat.';
         }
     }
 
@@ -54,31 +54,34 @@ class ChatController extends Controller
          * Check if user is actually in this chat group
          */
         if (in_array($chatid, $chats)) {
-            return view('chat', ['messages' => $this->fetchMessages($chatid), 'chat' => ChatModel::getChatData($chatid), 'userChats' => $chats]);
+            return view('chat', ['messages' => $this->fetchMessages($chatid), 'chat' => ChatModel::getChatData($chatid), 'userChats' => ChatModel::getChatsByUserId(Auth::id(), true)]);
         } else {
             return redirect('/home');
         }
-
     }
 
     public function fetchMessages($chatid)
     {
-        $chat = new ChatModel();
-        return $chat->getMessages($chatid);
+        return ChatModel::getMessages($chatid);
     }
 
-    public static function sendMessage($chatid)
+    public static function sendMessage($data)
     {
         /*
-         * Call socket function here
+         * Called from socket
          */
 
-        $data = $_POST;
-        $data['chatid'] = $chatid;
-        $data['userid'] = Auth::id();
+//        $data = $_POST;
+//        $data['chatid'] = $chatid;
 
-        $chatModel = new ChatModel();
-        $chatModel->saveMessage($data);
+        $sendData = [];
+        $sendData['userid'] = Auth::id();
+        $sendData['chatid'] = $data['id'];
+        $sendData['message'] = $data['msg'];
+
+        if (empty($sendData['message'])) return 'Message empty!';
+
+        ChatModel::saveMessage($sendData);
 //        if ($chatModel->saveMessage($data)) {
 //            route('chat.id', ['id' => $chatid]);
 //        } else {

@@ -1,8 +1,4 @@
 <?php
-$chatname = 'hoi';
-
-$lastmsg = 'hoei';
-
 if (isset($chat)) $chat = (array)$chat;
 if (isset($userChats)) $userChats = (array)$userChats;
 if (!empty($messages)) $messages = (array)$messages;

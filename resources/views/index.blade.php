@@ -8,8 +8,9 @@ if (isset($userChats)) $userChats = (array)$userChats;
 if (!empty($messages)) $messages = (array)$messages;
 
 $id = \Illuminate\Support\Facades\Auth::id(); // de id is de id van de gebruiker
-$name = \Illuminate\Support\Facades\Auth::user()->getAuthIdentifierName(); // de naam van de gebruiker
-$chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
+$name = \Illuminate\Support\Facades\Auth::user()->name; // de naam van de gebruiker
+//$chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
+$chat_id = 0;
 ?>
 
 @extends('layouts.app')
