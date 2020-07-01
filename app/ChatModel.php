@@ -28,7 +28,7 @@ class ChatModel extends Model
 
         foreach ($data as $key => $value) {
             if (empty($value) && $key != 'group_name') exit("$key was not filled in.");
-            $$key = sanitize($value);
+            $$key = Functions::sanitize($value);
         }
 
         if (empty($group_name)) $group_name = "";
