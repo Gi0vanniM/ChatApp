@@ -9,7 +9,8 @@ if (!empty($messages)) $messages = (array)$messages;
 
 $id = \Illuminate\Support\Facades\Auth::id(); // de id is de id van de gebruiker
 $name = \Illuminate\Support\Facades\Auth::user()->getAuthIdentifierName(); // de naam van de gebruiker
-$chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
+//$chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
+$chat_id = 0;
 ?>
 
 @extends('layouts.app')
@@ -17,6 +18,7 @@ $chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
 <script>
     const SELF = new SocketCLT(<?=$chat_id?>, "<?=$name?>", <?=$id?>);
 </script>
+
 @section('content')
 
     <div class='col-12 w-100 mx-auto p-0 text-light position-absolute row mainbackground' style="height: 91%;">
@@ -78,6 +80,7 @@ $chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
                 </div>
                 <button type="submit" class="btn btn-primary ml-auto shadow float-left">Send</button>
             </form>
+
         </div>
     </div>
 @endsection

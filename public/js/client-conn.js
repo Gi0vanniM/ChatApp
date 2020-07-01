@@ -75,7 +75,7 @@ class SocketCLT {
 
     send(msg) {
         if (typeof msg != "string") throw new TypeError(`'${msg}' is not of type string`);
-
+        ResetForm();
         try {
             this.Socket.send(JSON.stringify({
                 'id': this.id,
@@ -88,4 +88,9 @@ class SocketCLT {
             throw new Error("Something went wrong when sending message to the server\n" + err);
         }
     }
+}
+
+function ResetForm() {
+    frm = document.getElementById('msg_box');
+    frm.value = '';
 }
