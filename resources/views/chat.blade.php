@@ -14,16 +14,15 @@ if (!$noChatActive) {
 
     $userid = \Illuminate\Support\Facades\Auth::id(); // de id is de id van de gebruiker
     $name = \Illuminate\Support\Facades\Auth::user()->name; // de naam van de gebruiker
-//$chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
-    $chat_id = 0;
+    $chat_id = $chat['chatid']; // de id van de chat (waar deze user aanvast zit)
 }
 ?>
 
 @extends('layouts.app')
 
-<script src="./js/client-conn.js"></script>
+<script src="../js/client-conn.js"></script>
 <script>
-    const SELF = new SocketCLT(<?=$chat_id?>, "<?=$name?>", <?=$userid?>);
+    const SELF = new SocketCLT("<?=$chat_id?>", "<?=$name?>", <?=$userid?>);
 </script>
 
 @section('content')
@@ -48,7 +47,7 @@ if (!$noChatActive) {
         <!-- Main chat window-->
         <div class="ml-auto mr-1 col-9 h-75 border border-secondary rounded mt-2 shadow-lg overflow-auto" id="chat_box">
             <?php if (!$noChatActive) {?>
-            <h3 class="mt-1 bg-dark rounded text-center shadow-lg position-sticky">Chat with: User 1</h3>
+            <h3 class="mt-1 bg-dark rounded text-center shadow-lg position-sticky">Chat with: <?= $chat['group_name'] ?> </h3>
             <?php foreach($messages as $message) { ?>
             <div class="card bg-dark shadow-lg mt-1">
                 <div class="card-body p-1">

@@ -27,19 +27,15 @@ class ChatModel extends Model
          */
 
         foreach ($data as $key => $value) {
-            if (empty($value) && $key != 'group_name') exit("$key was not filled in.");
-            $$key = Functions::sanitize($value);
+            if (empty($value)) exit("$key was not filled in.");
+            $$key = $value;
         }
 
-        if (empty($group_name)) $group_name = "";
+        $group_name = Functions::sanitize($data['group_name']);
+        $isgroup = Functions::sanitize($data['isgroup']);
 
         $isgroup = (empty($isgroup)) ? false : true;
-        if (isset($admins)) $admins = $admins;
-        if (isset($users)) $users = $users;
-
-        $adminList = implode(';', $admins);
-        $userList = implode(';', $users);
-
+        $adminList = Functions::sanitize(implode(';', $data['admins']));
 
         $check = false;
         while ($check == false) {
@@ -62,8 +58,8 @@ class ChatModel extends Model
             $queryInsert = DB::insert("INSERT INTO chats (chatid, group_name, isgroup, created_at, admins) VALUES (:chatid, :group_name, :isgroup, NOW(), :admins)",
                 array($uuid, $group_name, $isgroup, $adminList));
 
-            DB::insert('INSERT INTO chatusers (chatid, userid) VALUES (:chatid, :userid)', array($uuid, $admins[0]));
-            foreach ($users as $user) {
+            DB::insert('INSERT INTO chatusers (chatid, userid) VALUES (:chatid, :userid)', array($uuid, $data['admins'][0]));
+            foreach ($data['users'] as $user) {
                 DB::insert('INSERT INTO chatusers (chatid, userid) VALUES (:chatid, :userid)', array($uuid, $user));
             }
 
@@ -124,6 +120,9 @@ ORDER BY timestamp ASC
          * TODO: Return chat data if $all = true
          */
         $id = Functions::sanitize($id);
+
+        $q = 'SELECT  FROM chatusers c WHERE userid=? ';
+
         $result = DB::select('SELECT * FROM chatusers WHERE userid=?', array($id));
         $chats = [];
         foreach ($result as $row) {
