@@ -1,5 +1,6 @@
 const HOST = "localhost";
 const PORT = 8080;
+
 function CARD(message, user = 'you') {
     return `<div class="card bg-dark shadow-lg mt-1">
 <div class="card-body p-1">
@@ -22,6 +23,7 @@ function CARD(message, user = 'you') {
 </div>
 </div>`
 }
+
 class SocketCLT {
     /**
      * Starts a connection with the server
@@ -31,9 +33,10 @@ class SocketCLT {
      */
     constructor(id, username, user_id) {
         //error checking
-            if(!id || !username || !user_id) throw new ReferenceError("Not all parameters are filled")
-            //check if host and port are the correct type
-            if(typeof HOST != "string" || typeof PORT != "number") throw new TypeError(`Type of host: ${HOST} OR port: '${PORT}' is invalid`)
+        if (typeof id == 'undefined' || typeof username == 'undefined') throw new ReferenceError("Not all parameters are filled");
+
+        //check if host and port are the correct type
+        if (typeof HOST != "string" || typeof PORT != "number") throw new TypeError(`Type of host: ${HOST} OR port: '${PORT}' is invalid`);
 
         this.id = id;
         this.username = username;
@@ -48,29 +51,41 @@ class SocketCLT {
             if (json_msg['id'] == this.id) this.addMessage(json_msg['msg'], json_msg['username']);
         }
 
-        this.Socket.onopen = e => { this.send(`${this.username} joined the chat...`) }
-        this.Socket.onclose = e => { this.send(`${this.username} the chat...`) }
+        this.Socket.onopen = e => {
+            this.send(`${this.username} joined the chat...`)
+        }
+        this.Socket.onclose = e => {
+            this.send(`${this.username} the chat...`)
+        }
     }
+
     /**
-     * @param {string} message 
-     * @param {string} user 
+     * @param {string} message
+     * @param {string} user
      */
     addMessage(message, user = "you") {
         //error checking
-        if(typeof message != "string") throw new TypeError(`'${message}' is not of type string`)
-        if(typeof user != "string") throw new TypeError(`'${user}' is not of type string`)
-        
+        if (typeof message != "string") throw new TypeError(`'${message}' is not of type string`);
+        if (typeof user != "string") throw new TypeError(`'${user}' is not of type string`);
+
         //add the message
         const BOX = document.getElementById('chat_box');
         BOX.innerHTML += CARD(message, user);
     }
+
     send(msg) {
-        if (typeof msg != "string") throw new TypeError(`'${msg}' is not of type string`)
-        
-        try{
-            this.Socket.send(JSON.stringify({ 'id': this.id, 'msg': msg, 'username': this.username, 'user-id': this.user_id }));//send the message to the server
+        if (typeof msg != "string") throw new TypeError(`'${msg}' is not of type string`);
+
+        try {
+            this.Socket.send(JSON.stringify({
+                'id': this.id,
+                'msg': msg,
+                'username': this.username,
+                'user-id': this.user_id
+            }));//send the message to the server
             this.addMessage(`${msg}`);//add the message to the message box
+        } catch (err) {
+            throw new Error("Something went wrong when sending message to the server\n" + err);
         }
-        catch(err){ throw new Error("Something went wrong when sending message to the server\n" + err); }
     }
 }
