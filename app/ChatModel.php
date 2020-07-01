@@ -83,7 +83,7 @@ class ChatModel extends Model
     public static function getMessages($chatid, $amount = 30)
     {
         $chatid = Functions::sanitize($chatid);
-        return DB::select("
+        return Functions::objectInArrayToArray(DB::select("
 SELECT *
 FROM (SELECT m.*, name
         FROM messages m
@@ -91,7 +91,7 @@ FROM (SELECT m.*, name
         WHERE chatid=? ORDER BY timestamp
         DESC LIMIT ?) sub
 ORDER BY timestamp ASC
-    ", array($chatid, $amount));
+    ", array($chatid, $amount)));
     }
 
     /*
