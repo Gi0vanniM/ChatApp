@@ -74,6 +74,6 @@ $self->on('data', function($from, $msg){
 #endregion
 
 //start the server
-$app = new Ratchet\App('localhost', 8080);
+$app = new Ratchet\App(env('SOCKET_HOST', 'localhost'), env('SOCKET_PORT', 8080));
 $app->route('/chat', $self, array('*'));
 $app->run();
