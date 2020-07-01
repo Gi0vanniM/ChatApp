@@ -67,10 +67,10 @@ class ChatController extends Controller
         return $chat->getMessages($chatid);
     }
 
-    public function sendMessage($chatid)
+    public static function sendMessage($chatid)
     {
         /*
-         * Call socket function here*
+         * Call socket function here
          */
 
         $data = $_POST;
@@ -78,10 +78,11 @@ class ChatController extends Controller
         $data['userid'] = Auth::id();
 
         $chatModel = new ChatModel();
-        if ($chatModel->saveMessage($data)) {
-            route('chat.id', ['id' => $chatid]);
-        } else {
-            echo "Someting went wrong while sending the message.";
-        }
+        $chatModel->saveMessage($data);
+//        if ($chatModel->saveMessage($data)) {
+//            route('chat.id', ['id' => $chatid]);
+//        } else {
+//            echo "Someting went wrong while sending the message.";
+//        }
     }
 }
