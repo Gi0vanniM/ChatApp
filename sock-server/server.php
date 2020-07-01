@@ -1,6 +1,8 @@
 <?php
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use App\Functions;
+use App\Http\Controllers\ChatController;
 
 require __DIR__.'/../vendor/autoload.php';
 
@@ -28,13 +30,18 @@ class SocketSRV implements MessageComponentInterface{
     }
     function onMessage(ConnectionInterface $from, $msg){
         //Send any incoming messages to all connected clients (except sender)
-        var_dump($msg);
+        $json_msg = json_decode($msg);
+        $json_msg->time_stamp = new DateTime;
+
+        $json_msg->msg = Functions::sanitize($json_msg->msg);
+
+        var_dump($json_msg);
         foreach ($this->clients as $client) {
             if ($from != $client) {
-                $client->send(($msg));
+                $client->send(json_encode($json_msg));
             }
         }
-        if(!empty($this->events['data'])) $this->events['data']($from, $msg);
+        if(!empty($this->events['data'])) $this->events['data']($from, $json_msg);
     }
     function onClose(ConnectionInterface $conn){
         //remove this client form the active clients
@@ -61,19 +68,20 @@ class SocketSRV implements MessageComponentInterface{
         echo "An error has occurred: {$e->getMessage()}\n";
         $conn->close();
     }
+    function run(){
+        $app = new Ratchet\App(env('SOCKET_HOST', 'localhost'), env('SOCKET_PORT', 8080));
+        $app->route('/chat', $this, array('*'));
+        $app->run();
+    }  
 }
 
 $self = new SocketSRV; //create the class
 
-#region set the events
+//set events
 $self->on('data', function($from, $msg){
-    $json = json_decode($msg);
-    //$json has => [id] [msg] [user-id]
-    //add the json info into the database
+    //$msg has => [id] [msg] [user-id]
+    //add the json info into the database (via the Chat Controller)
+    //ChatController::sendMessage($msg);
 });
-#endregion
-
 //start the server
-$app = new Ratchet\App(env('SOCKET_HOST', 'localhost'), env('SOCKET_PORT', 8080));
-$app->route('/chat', $self, array('*'));
-$app->run();
+$self->run();

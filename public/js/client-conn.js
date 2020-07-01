@@ -1,7 +1,7 @@
 const HOST = "localhost";
 const PORT = 8080;
 
-function CARD(message, user = 'you') {
+function CARD(message, user = 'you', time_stamp) {
     return `<div class="card bg-dark shadow-lg mt-1">
 <div class="card-body p-1">
 <div class="dropdown mr-auto position-relative float-right">
@@ -19,7 +19,7 @@ function CARD(message, user = 'you') {
 <!-- end said if statement here -->
     <h6 class="card-text text-white">${user}: </h6>
     <h6 class="card-text text-white">${message}</h6>
-    <small class='text-secondary'>At [time and date]</small>
+    <small class='text-secondary'>At [${time_stamp.date}]</small>
 </div>
 </div>`
 }
@@ -48,7 +48,7 @@ class SocketCLT {
         //add the events
         this.Socket.onmessage = msg => {
             let json_msg = JSON.parse(msg.data);
-            if (json_msg['id'] == this.id) this.addMessage(json_msg['msg'], json_msg['username']);
+            if (json_msg['id'] == this.id) this.addMessage(json_msg['msg'], json_msg['time_stamp'], json_msg['username']);
         }
 
         this.Socket.onopen = e => {
@@ -63,14 +63,14 @@ class SocketCLT {
      * @param {string} message
      * @param {string} user
      */
-    addMessage(message, user = "you") {
+    addMessage(message, time_stamp = '', user = "you") {
         //error checking
         if (typeof message != "string") throw new TypeError(`'${message}' is not of type string`);
         if (typeof user != "string") throw new TypeError(`'${user}' is not of type string`);
 
         //add the message
         const BOX = document.getElementById('chat_box');
-        BOX.innerHTML += CARD(message, user);
+        BOX.innerHTML += CARD(message, user, time_stamp);
     }
 
     send(msg) {
@@ -81,7 +81,8 @@ class SocketCLT {
                 'id': this.id,
                 'msg': msg,
                 'username': this.username,
-                'user-id': this.user_id
+                'user-id': this.user_id,
+                'time_stamp': null
             }));//send the message to the server
             this.addMessage(`${msg}`);//add the message to the message box
         } catch (err) {
