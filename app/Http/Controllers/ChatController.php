@@ -50,7 +50,7 @@ class ChatController extends Controller
     public function viewChat($chatid = null)
     {
         $chats = ChatModel::getChatsByUserId(Auth::id());
-        if (empty($chatid)) return view('chat', ['noChatActive' => true]);
+        if (empty($chatid)) return view('chat', ['noChatActive' => true, 'userChats' => ChatModel::getChatsByUserId(Auth::id(), true)]);
         /*
          * Check if user is actually in this chat group
          */

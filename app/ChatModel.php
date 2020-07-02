@@ -121,16 +121,20 @@ ORDER BY timestamp ASC
          */
         $id = Functions::sanitize($id);
 
-        $allChats = 'SELECT c.userid, ch.* FROM chatusers c JOIN chats ch ON c.chatid = ch.chatid WHERE userid=? ';
+        $allChats = '
+SELECT c.userid, ch.*, (SELECT message FROM messages ORDER BY timestamp DESC LIMIT 1) as last_message
+FROM chatusers c JOIN chats ch ON c.chatid = ch.chatid WHERE userid=?';
         $listChats = 'SELECT * FROM chatusers WHERE userid=?';
 
         $result = DB::select(($all) ? $allChats : $listChats, array($id));
         $chats = [];
+
         foreach ($result as $row) {
             $row = (array)$row;
             if (!$all) array_push($chats, $row['chatid']);
         }
-        return ($all) ? $allChats : $chats;
+        $result = Functions::objectInArrayToArray($result);
+        return ($all) ? $result : $chats;
     }
 
 }

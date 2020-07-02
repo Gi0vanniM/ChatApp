@@ -7,9 +7,10 @@ if (empty($noChatActive)) $noChatActive = false;
 
 $userid = $name = $chat_id = '';
 
+if (isset($userChats)) $userChats = (array)$userChats;
+
 if (!$noChatActive) {
     if (isset($chat)) $chat = (array)$chat;
-    if (isset($userChats)) $userChats = (array)$userChats;
     if (!empty($messages)) $messages = (array)$messages;
 
     $userid = \Illuminate\Support\Facades\Auth::id(); // de id is de id van de gebruiker
@@ -33,13 +34,13 @@ if (!$noChatActive) {
 
         <div class='col-2 h-75 mt-2 ml-auto border border-secondary rounded overflow-auto'>
             <?php foreach ($userChats as $chats){ ?>
-            <div class="card bg-dark shadow-lg mt-1">
+            <a href="{{ route("chat.id", ['id'=>$chats['chatid']]) }}" class="card bg-dark shadow-lg mt-1">
 
                 <div class="card-body">
-                    <h4 class="card-title"><?= $chat['group_name'] ?> </h4>
-                    <p class="card-text"><?= $lastmsg ?></p>
+                    <h4 class="card-title"><?= $chats['group_name'] ?> </h4>
+                    <p class="card-text"><?= $chats['last_message'] ?></p>
                 </div>
-            </div>
+            </a>
             <?php } ?>
         </div>
 
@@ -47,7 +48,8 @@ if (!$noChatActive) {
         <!-- Main chat window-->
         <div class="ml-auto mr-1 col-9 h-75 border border-secondary rounded mt-2 shadow-lg overflow-auto" id="chat_box">
             <?php if (!$noChatActive) {?>
-            <h3 class="mt-1 bg-dark rounded text-center shadow-lg position-sticky">Chat with: <?= $chat['group_name'] ?> </h3>
+            <h3 class="mt-1 bg-dark rounded text-center shadow-lg position-sticky">Chat
+                with: <?= $chat['group_name'] ?> </h3>
             <?php foreach($messages as $message) { ?>
             <div class="card bg-dark shadow-lg mt-1">
                 <div class="card-body p-1">
