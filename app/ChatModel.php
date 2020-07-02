@@ -121,15 +121,16 @@ ORDER BY timestamp ASC
          */
         $id = Functions::sanitize($id);
 
-        $q = 'SELECT  FROM chatusers c WHERE userid=? ';
+        $allChats = 'SELECT c.userid, ch.* FROM chatusers c JOIN chats ch ON c.chatid = ch.chatid WHERE userid=? ';
+        $listChats = 'SELECT * FROM chatusers WHERE userid=?';
 
-        $result = DB::select('SELECT * FROM chatusers WHERE userid=?', array($id));
+        $result = DB::select(($all) ? $allChats : $listChats, array($id));
         $chats = [];
         foreach ($result as $row) {
             $row = (array)$row;
             if (!$all) array_push($chats, $row['chatid']);
         }
-        return $chats;
+        return ($all) ? $allChats : $chats;
     }
 
 }

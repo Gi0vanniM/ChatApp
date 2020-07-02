@@ -66,27 +66,4 @@ class ChatController extends Controller
         return ChatModel::getMessages($chatid);
     }
 
-    public static function sendMessage($data)
-    {
-        /*
-         * Called from socket
-         */
-
-//        $data = $_POST;
-//        $data['chatid'] = $chatid;
-
-        $sendData = [];
-        $sendData['userid'] = Auth::id();
-        $sendData['chatid'] = $data['id'];
-        $sendData['message'] = $data['msg'];
-
-        if (empty($sendData['message'])) return 'Message empty!';
-
-        ChatModel::saveMessage($sendData);
-//        if ($chatModel->saveMessage($data)) {
-//            route('chat.id', ['id' => $chatid]);
-//        } else {
-//            echo "Someting went wrong while sending the message.";
-//        }
-    }
 }

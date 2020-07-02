@@ -32,15 +32,15 @@ if (!$noChatActive) {
         <!--Main overview of chats for user -->
 
         <div class='col-2 h-75 mt-2 ml-auto border border-secondary rounded overflow-auto'>
-            <?php // foreach ($chatvar as $row){ ?>
+            <?php foreach ($userChats as $chats){ ?>
             <div class="card bg-dark shadow-lg mt-1">
 
                 <div class="card-body">
-                    <h4 class="card-title">To: <?= $chatname ?> </h4>
+                    <h4 class="card-title"><?= $chat['group_name'] ?> </h4>
                     <p class="card-text"><?= $lastmsg ?></p>
                 </div>
             </div>
-            <?php // } ?>
+            <?php } ?>
         </div>
 
 

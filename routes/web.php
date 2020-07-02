@@ -25,6 +25,7 @@ Route::get('/chat', 'ChatController@viewChat')->name('chat');
 Route::get('/chat/{id}', 'ChatController@viewChat')->name('chat.id');
 Route::post('/chat/{id}', 'ChatController@sendMessage')->name('chat.id.message');
 
-
 Route::get('/create', 'ChatController@create');
 Route::post('/create', 'ChatController@createChat')->name('chat.create');
+
+Route::post('/sendMessage', 'Message@sendMessage')->name('sendMessage');
