@@ -70,7 +70,7 @@ if (!$noChatActive) {
                 <?php } ?><!-- end said if statement here -->
                     <h6 class="card-text text-white"><?= ($message['userid'] == $userid) ? '<strong>You</strong>' : $message['name'] ?>
                         : </h6>
-                    <h6 class="card-text text-white"><?= $lastmsg ?></h6>
+                    <h6 class="card-text text-white"><?= $message['message'] ?></h6>
                     <small class='text-secondary'>At <?= $message['timestamp'] ?></small>
                 </div>
             </div>
