@@ -23,7 +23,9 @@ if (!$noChatActive) {
 
 <script src="../js/client-conn.js"></script>
 <script>
+        <?php if (!$noChatActive) { ?>
     const SELF = new SocketCLT("<?=$chat_id?>", "<?=$name?>", <?=$userid?>);
+    <?php } ?>
 </script>
 
 @section('content')

@@ -1,7 +1,7 @@
 const HOST = "localhost";
 const PORT = 8080;
 
-function CARD(message, user = 'you', time_stamp) {
+function CARD(message, user = '<strong>You</strong>', time_stamp) {
     return `<div class="card bg-dark shadow-lg mt-1">
 <div class="card-body p-1">
 <div class="dropdown mr-auto position-relative float-right">
@@ -19,7 +19,7 @@ function CARD(message, user = 'you', time_stamp) {
 <!-- end said if statement here -->
     <h6 class="card-text text-white">${user}: </h6>
     <h6 class="card-text text-white">${message}</h6>
-    <small class='text-secondary'>At [${time_stamp.date}]</small>
+    <small class='text-secondary'>At ${new Date}</small>
 </div>
 </div>`
 }
