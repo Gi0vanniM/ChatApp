@@ -2,6 +2,7 @@ const HOST = "localhost";
 const PORT = 8080;
 
 function CARD(message, user = '<strong>You</strong>', time_stamp) {
+    let dateTime = new Date();
     return `<div class="card bg-dark shadow-lg mt-1">
 <div class="card-body p-1">
 <div class="dropdown mr-auto position-relative float-right">
@@ -19,7 +20,7 @@ function CARD(message, user = '<strong>You</strong>', time_stamp) {
 <!-- end said if statement here -->
     <h6 class="card-text text-white">${user}: </h6>
     <h6 class="card-text text-white">${message}</h6>
-    <small class='text-secondary'>At ${new Date}</small>
+    <small class='text-secondary'>At ${dateTime.getFullYear() + "-" + appendLeadingZeroes(dateTime.getMonth() + 1) + "-" + appendLeadingZeroes(dateTime.getDate()) + " " + appendLeadingZeroes(dateTime.getHours()) + ":" + appendLeadingZeroes(dateTime.getMinutes()) + ":" + appendLeadingZeroes(dateTime.getSeconds())}</small>
 </div>
 </div>`
 }
@@ -55,7 +56,7 @@ class SocketCLT {
             this.send(`${this.username} joined the chat...`)
         }
         this.Socket.onclose = e => {
-            this.send(`${this.username} the chat...`)
+            this.send(`${this.username} left the chat...`)
         }
     }
 
@@ -63,7 +64,7 @@ class SocketCLT {
      * @param {string} message
      * @param {string} user
      */
-    addMessage(message, time_stamp = '', user = "you") {
+    addMessage(message, time_stamp = '', user = "<strong>You</strong>") {
         //error checking
         if (typeof message != "string") throw new TypeError(`'${message}' is not of type string`);
         if (typeof user != "string") throw new TypeError(`'${user}' is not of type string`);
@@ -94,4 +95,11 @@ class SocketCLT {
 function ResetForm() {
     frm = document.getElementById('msg_box');
     frm.value = '';
+}
+
+function appendLeadingZeroes(n) {
+    if (n <= 9) {
+        return "0" + n;
+    }
+    return n
 }
