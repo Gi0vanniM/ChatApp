@@ -57,7 +57,7 @@ if (!$noChatActive) {
             <h3 class="mt-1 bg-dark rounded text-center shadow-lg position-sticky">Chat
                 with: <?= $chat['group_name'] ?> </h3>
             <?php foreach($messages as $message) { ?>
-            <div class="card bg-dark shadow-lg mt-1">
+            <div class="card bg-transparent border border-dark rounded shadow-lg mt-1">
                 <div class="card-body p-1">
                 <?php if ($message['userid'] == $userid) {?><!-- begin an if statement here to check whether the owner of the message is person viewing it, if that's the case then show this menu -->
                     <div class="dropdown mr-auto position-relative float-right">
@@ -86,18 +86,18 @@ if (!$noChatActive) {
         <div class='row ml-auto mr-1 col-12'>
             <div class='col-3 ml-auto'>
                 <a href="/create" class="mx-auto">
-                    <button class="btn btn-success text-white mb-1"> Make a group chat</button>
+                    <button class="btn btn-transparent border border-success rounded text-white mb-1"> Make a group chat</button>
                 </a>
 
                 <a href="/delete" class="mx-auto">
-                    <button class="btn btn-danger text-white mb-1"> Delete a group chat</button>
+                    <button class="btn btn-transparent border border-danger rounded text-white mb-1"> Delete a group chat</button>
                 </a>
 
 
                 <form action="{{ route('chat.leave') }}" method="POST">
                     @csrf
                     <input value="<?=$chat['chatid']?>" name="chatid" hidden>
-                    <button type="submit" class="btn btn-warning text-white mb-1"> Leave a group chat</button>
+                    <button type="submit" class="btn btn-transparent border border-warning rounded text-white mb-1"> Leave a group chat</button>
                 </form>
             </div>
             <?php if (!$noChatActive) { ?>
