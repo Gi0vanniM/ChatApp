@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
 class ChatModel extends Model
 {
 
-    /*
+    /**
      * Create a chat group
      */
     public static function createChat($data)
@@ -73,7 +73,7 @@ class ChatModel extends Model
         return $broodjeKaas;
     }
 
-    /*
+    /**
      * Get messages from the database by (chat id, amount (default of 30 messages))
      */
     public static function getMessages($chatid, $amount = 30)
@@ -90,7 +90,7 @@ ORDER BY timestamp ASC
     ", array($chatid, $amount)));
     }
 
-    /*
+    /**
      * Save a chat message to the database ($data has userid, chatid, message)
      */
     public static function saveMessage($data)
@@ -101,7 +101,7 @@ ORDER BY timestamp ASC
         return DB::insert("INSERT INTO messages (chatid, userid, timestamp, message) VALUES (?,?,?,?)", array($chatid, $userid, now(), $message));
     }
 
-    /*
+    /**
      * Get all the data about the group chat (by chat id)
      */
     public static function getChatData($id)
@@ -111,7 +111,7 @@ ORDER BY timestamp ASC
         return Functions::objectInArrayToArray($result)[0];
     }
 
-    /*
+    /**
      * Get all chat groups the user is in (by user id)
      */
     public static function getChatsByUserId($id, $all = false)
@@ -136,5 +136,14 @@ FROM chatusers c JOIN chats ch ON c.chatid = ch.chatid WHERE userid=?';
         $result = Functions::objectInArrayToArray($result);
         return ($all) ? $result : $chats;
     }
-
+    /**
+     * Lest a user leave the chat
+     */
+    public static function leaveChat($user_id, $chat_id){
+        //$result = DB::delete('SELECT * FROM chats WHERE chatid=?', array($id));
+        DB::table('chatusers')->where([
+            ['userid', '=', $user_id],
+            ['chatid', '=', $chat_id]
+        ])->delete();
+    }
 }

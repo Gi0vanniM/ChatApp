@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ChatModel;
+use App\Functions;
 use App\Http\Controllers\Controller;
 use App\Message;
 use App\User;
@@ -60,10 +61,13 @@ class ChatController extends Controller
             return redirect('/home');
         }
     }
+    public function leaveChat(){
+        $uid = Auth::id();
+        ChatModel::leaveChat(Functions::sanitize($_POST['chatid']), $uid);
+    }
 
     public function fetchMessages($chatid)
     {
         return ChatModel::getMessages($chatid);
     }
-
 }
