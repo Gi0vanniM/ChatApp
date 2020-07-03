@@ -29,3 +29,5 @@ Route::get('/create', 'ChatController@create');
 Route::post('/create', 'ChatController@createChat')->name('chat.create');
 
 Route::post('/sendMessage', 'Message@sendMessage')->name('sendMessage');
+
+Route::post('/leaveChat', 'ChatController@leaveChat')->name('chat.leave');
