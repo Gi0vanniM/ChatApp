@@ -93,12 +93,13 @@ if (!$noChatActive) {
                     <button class="btn btn-transparent border border-danger rounded text-white mb-1"> Delete a group chat</button>
                 </a>
 
-
+                <?php if (!$noChatActive) { ?>
                 <form action="{{ route('chat.leave') }}" method="POST">
                     @csrf
                     <input value="<?=$chat['chatid']?>" name="chatid" hidden>
                     <button type="submit" class="btn btn-transparent border border-warning rounded text-white mb-1"> Leave a group chat</button>
                 </form>
+                <?php } ?>
             </div>
             <?php if (!$noChatActive) { ?>
             <form id="chat_form" action="javascript:void(0);"
