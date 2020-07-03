@@ -85,23 +85,25 @@ if (!$noChatActive) {
         </div>
         <div class='row ml-auto mr-1 col-12'>
             <div class='col-3 ml-auto'>
-            <a href="/create" class="mx-auto">
-                <button class="btn btn-success text-white mb-1"> Make a group chat</button>
-            </a>
+                <a href="/create" class="mx-auto">
+                    <button class="btn btn-success text-white mb-1"> Make a group chat</button>
+                </a>
 
-            <a href="/delete" class="mx-auto">
-                <button class="btn btn-danger text-white mb-1"> Delete a group chat</button>
-            </a>
+                <a href="/delete" class="mx-auto">
+                    <button class="btn btn-danger text-white mb-1"> Delete a group chat</button>
+                </a>
 
-            
-	        <form action="/leaveChat" method="POST">
-		    <input value="<?=$chat['chatid']?>" name="chatid" hidden>
-            <button type="submit" class="btn btn-warning text-white mb-1"> Leave a group chat</button>
-	        </form>
+
+                <form action="{{ route('chat.leave') }}" method="POST">
+                    @csrf
+                    <input value="<?=$chat['chatid']?>" name="chatid" hidden>
+                    <button type="submit" class="btn btn-warning text-white mb-1"> Leave a group chat</button>
+                </form>
             </div>
             <?php if (!$noChatActive) { ?>
             <form id="chat_form" action="javascript:void(0);"
-                  onsubmit="SELF.send(document.getElementById('msg_box').value); " class=" ml-auto w-75" autocomplete="off">
+                  onsubmit="SELF.send(document.getElementById('msg_box').value); " class=" ml-auto w-75"
+                  autocomplete="off">
                 <div class="form-group shadow-lg">
                     <input type="text" name="msg" id="msg_box"
                            class="form-control bg-dark text-white border border-secondary rounded"
