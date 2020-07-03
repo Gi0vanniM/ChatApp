@@ -122,7 +122,7 @@ ORDER BY timestamp ASC
         $id = Functions::sanitize($id);
 
         $allChats = '
-SELECT c.userid, ch.*, (SELECT message FROM messages ORDER BY timestamp DESC LIMIT 1) as last_message
+SELECT c.userid, ch.*, (SELECT message FROM messages WHERE chatid=c.chatid ORDER BY timestamp DESC LIMIT 1) as last_message
 FROM chatusers c JOIN chats ch ON c.chatid = ch.chatid WHERE userid=?';
         $listChats = 'SELECT * FROM chatusers WHERE userid=?';
 
