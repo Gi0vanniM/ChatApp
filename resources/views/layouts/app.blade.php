@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="" style="animation-name: bgAnim; animation-duration: 6s; animation-iteration-count: infinite; background-repeat: no-repeat; background-size: cover;  background-attachment: fixed;">
+<body class="" style="background-color: black; animation-name: bgAnim; animation-duration: 6s; animation-iteration-count: infinite; background-repeat: no-repeat; background-size: cover;  background-attachment: fixed;">
     <style>
     @keyframes bgAnim {
     0% {background-image:url({{asset('img/nobg.png')}});}

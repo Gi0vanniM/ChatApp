@@ -25,6 +25,10 @@ if (!$noChatActive) {
 <script>
         <?php if (!$noChatActive) { ?>
     const SELF = new SocketCLT("<?=$chat_id?>", "<?=$name?>", <?=$userid?>);
+    window.addEventListener('load', function () {
+        let chatbox = document.getElementById('chat_box');
+        chatbox.scrollBy(0, chatbox.scrollHeight);
+    });
     <?php } ?>
 </script>
 

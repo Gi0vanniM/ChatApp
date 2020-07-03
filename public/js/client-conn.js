@@ -52,12 +52,12 @@ class SocketCLT {
             if (json_msg['id'] == this.id) this.addMessage(json_msg['msg'], json_msg['time_stamp'], json_msg['username']);
         }
 
-        this.Socket.onopen = e => {
-            this.send(`${this.username} joined the chat...`)
-        }
-        this.Socket.onclose = e => {
-            this.send(`${this.username} left the chat...`)
-        }
+        // this.Socket.onopen = e => {
+        //     this.send(`${this.username} joined the chat...`)
+        // }
+        // this.Socket.onclose = e => {
+        //     this.send(`${this.username} left the chat...`)
+        // }
     }
 
     /**
@@ -69,9 +69,16 @@ class SocketCLT {
         if (typeof message != "string") throw new TypeError(`'${message}' is not of type string`);
         if (typeof user != "string") throw new TypeError(`'${user}' is not of type string`);
 
+        let scroll = false;
+
+
         //add the message
         const BOX = document.getElementById('chat_box');
+        if (BOX.scrollHeight - BOX.scrollTop - BOX.clientHeight < 1) scroll = true;
+
         BOX.innerHTML += CARD(message, user, time_stamp);
+
+        if (scroll) BOX.scrollBy(0, 100);
     }
 
     send(msg) {
