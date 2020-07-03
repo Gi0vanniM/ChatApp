@@ -136,14 +136,15 @@ FROM chatusers c JOIN chats ch ON c.chatid = ch.chatid WHERE userid=?';
         $result = Functions::objectInArrayToArray($result);
         return ($all) ? $result : $chats;
     }
+
     /**
-     * Lest a user leave the chat
+     * Let a user leave the chat
      */
-    public static function leaveChat($user_id, $chat_id){
+    public static function leaveChat($userid, $chatid)
+    {
         //$result = DB::delete('SELECT * FROM chats WHERE chatid=?', array($id));
-        DB::table('chatusers')->where([
-            ['userid', '=', $user_id],
-            ['chatid', '=', $chat_id]
-        ])->delete();
+        $query = DB::delete('DELETE FROM chatusers WHERE chatid=? AND userid=?', array($chatid, $userid));
+        if ($query) return true;
+        return false;
     }
 }

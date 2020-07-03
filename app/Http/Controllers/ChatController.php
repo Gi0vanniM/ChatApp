@@ -61,9 +61,13 @@ class ChatController extends Controller
             return redirect('/home');
         }
     }
-    public function leaveChat(){
+
+    public function leaveChat()
+    {
         $uid = Auth::id();
-        ChatModel::leaveChat(Functions::sanitize($_POST['chatid']), $uid);
+        $chatid = Functions::sanitize($_POST['chatid']);
+        ChatModel::leaveChat($uid, $chatid);
+        return redirect('/chat');
     }
 
     public function fetchMessages($chatid)
