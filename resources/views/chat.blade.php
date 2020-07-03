@@ -42,7 +42,7 @@ if (!$noChatActive) {
             <?php foreach ($userChats as $chats){ ?>
             <a href="{{ route("chat.id", ['id'=>$chats['chatid']]) }}" class="card bg-dark shadow-lg mt-1">
 
-                <div class="card-body">
+                <div class="card-body text-white text-decoration-none">
                     <h4 class="card-title"><?= $chats['group_name'] ?> </h4>
                     <p class="card-text"><?= $chats['last_message'] ?></p>
                 </div>
@@ -84,14 +84,24 @@ if (!$noChatActive) {
             <?php } ?>
         </div>
         <div class='row ml-auto mr-1 col-12'>
-
-            <a href="/create" style="height: 30%" class="mx-auto">
+            <div class='col-3 ml-auto'>
+            <a href="/create" class="mx-auto">
                 <button class="btn btn-success text-white mb-1"> Make a group chat</button>
             </a>
 
+            <a href="/delete" class="mx-auto">
+                <button class="btn btn-danger text-white mb-1"> Delete a group chat</button>
+            </a>
+
+            
+	        <form action="/leaveChat" method="POST">
+		    <input value="<?=$chat['chatid']?>" name="chatid" hidden>
+            <button type="submit" class="btn btn-warning text-white mb-1"> Leave a group chat</button>
+	        </form>
+            </div>
             <?php if (!$noChatActive) { ?>
             <form id="chat_form" action="javascript:void(0);"
-                  onsubmit="SELF.send(document.getElementById('msg_box').value); " class=" ml-auto w-75">
+                  onsubmit="SELF.send(document.getElementById('msg_box').value); " class=" ml-auto w-75" autocomplete="off">
                 <div class="form-group shadow-lg">
                     <input type="text" name="msg" id="msg_box"
                            class="form-control bg-dark text-white border border-secondary rounded"
